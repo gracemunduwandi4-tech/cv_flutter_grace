@@ -1,0 +1,15 @@
+.DS_Store
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+.idea/
+*.iml
+.vscode/*.log
+android/local.properties
+android/.gradle/
+ios/Pods/
+pubspec.lock
