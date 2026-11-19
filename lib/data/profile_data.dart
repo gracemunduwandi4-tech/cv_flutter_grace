@@ -122,5 +122,5 @@ const List<FamilyMember> family = [
 const String phone = '0975065374';
 const String email = 'gracemunduwandi4@gmail.com';
 const String address = 'Goma, RD Congo';
-const String linkedinUrl = 'https://www.linkedin.com/in/votre-profil';
+const String linkedinUrl = 'https://www.linkedin.com/in/gracemund';
 const String githubUrl = 'https://github.com/gracemunduwandi4-tech';
