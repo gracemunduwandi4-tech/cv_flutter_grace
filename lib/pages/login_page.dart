@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../data/profile_data.dart';
+import '../services/api_service.dart';
+import '../session.dart';
 import 'main_shell.dart';
+import 'register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,29 +14,37 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _userCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
   bool _hidden = true;
+  bool _loading = false;
 
   @override
   void dispose() {
-    _userCtrl.dispose();
+    _emailCtrl.dispose();
     _passCtrl.dispose();
     super.dispose();
   }
 
-  void _login() {
+  Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-    if (_userCtrl.text.trim() == loginUsername &&
-        _passCtrl.text == loginPassword) {
+    setState(() => _loading = true);
+    try {
+      final user =
+          await ApiService.login(_emailCtrl.text.trim(), _passCtrl.text);
+      Session.userId = int.tryParse(user['id'].toString());
+      Session.email = user['email']?.toString();
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const MainShell()),
       );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Identifiant ou mot de passe incorrect')),
-      );
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
+    } finally {
+      if (mounted) setState(() => _loading = false);
     }
   }
 
@@ -56,15 +66,16 @@ class _LoginPageState extends State<LoginPage> {
                       style: Theme.of(context).textTheme.headlineMedium),
                   const SizedBox(height: 32),
                   TextFormField(
-                    controller: _userCtrl,
+                    controller: _emailCtrl,
+                    keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     decoration: const InputDecoration(
-                      labelText: 'Identifiant',
+                      labelText: 'Identifiant (e-mail)',
                       prefixIcon: Icon(Icons.person),
                       border: OutlineInputBorder(),
                     ),
                     validator: (v) => (v == null || v.trim().isEmpty)
-                        ? 'Veuillez saisir votre identifiant'
+                        ? 'Veuillez saisir votre e-mail'
                         : null,
                   ),
                   const SizedBox(height: 16),
@@ -91,9 +102,23 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     height: 48,
                     child: FilledButton(
-                      onPressed: _login,
-                      child: const Text('Se connecter'),
+                      onPressed: _loading ? null : _login,
+                      child: _loading
+                          ? const SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Text('Se connecter'),
                     ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const RegisterPage()),
+                    ),
+                    child: const Text('Pas de compte ? Créer un compte'),
                   ),
                 ],
               ),

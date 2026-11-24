@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../session.dart';
 import 'contact_page.dart';
 import 'family_page.dart';
 import 'home_page.dart';
@@ -18,6 +19,14 @@ class _MainShellState extends State<MainShell> {
   static const _titles = ['Mon CV', 'Ma famille', 'Contact'];
   static const _pages = [HomePage(), FamilyPage(), ContactPage()];
 
+  void _logout() {
+    Session.clear();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,10 +36,7 @@ class _MainShellState extends State<MainShell> {
           IconButton(
             tooltip: 'Se déconnecter',
             icon: const Icon(Icons.logout),
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const LoginPage()),
-            ),
+            onPressed: _logout,
           ),
         ],
       ),
@@ -40,8 +46,10 @@ class _MainShellState extends State<MainShell> {
         onDestinationSelected: (i) => setState(() => _index = i),
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Accueil'),
-          NavigationDestination(icon: Icon(Icons.family_restroom), label: 'Famille'),
-          NavigationDestination(icon: Icon(Icons.contact_mail), label: 'Contact'),
+          NavigationDestination(
+              icon: Icon(Icons.family_restroom), label: 'Famille'),
+          NavigationDestination(
+              icon: Icon(Icons.contact_mail), label: 'Contact'),
         ],
       ),
     );
