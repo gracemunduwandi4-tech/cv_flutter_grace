@@ -1,6 +1,6 @@
 # cv_flutter_grace
 
-Application mobile Flutter de Grace Munduwandi présentant mon **CV**, ma **famille** et mes **coordonnées**.
+Application mobile Flutter de Muhindo Munduwandi Grace présentant mon **CV**, ma **famille** et mes **coordonnées**.
 
 ## Fonctionnalités
 
