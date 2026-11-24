@@ -12,6 +12,23 @@ Application mobile Flutter de Muhindo Munduwandi Grace présentant mon **CV**, m
 
 **Identifiants de test :** `admin` / `1234`
 
+## TP2 – Intégration de l'API REST
+
+L'application est connectée à l'API https://github.com/espoirbaraka/api-test (PHP + MySQL, XAMPP).
+
+- **Authentification réelle** : création de compte et connexion via l'API (`/accounts/register`, `/accounts/login`)
+- **Gestion des membres de la famille** : consultation, ajout (avec photo), modification et suppression, enregistrés en base de données (`/famille-membres`)
+
+### Vidéo de démonstration
+
+[▶ Voir la vidéo de démonstration](demo/demo.mp4)
+
+### Configuration
+
+1. Démarrer Apache et MySQL dans XAMPP et importer `api.sql` dans la base `api`.
+2. Mettre l'adresse IP du PC dans `lib/config.dart`.
+3. Lancer l'application sur un téléphone connecté au même Wi-Fi que le PC : `flutter run`.
+
 ## Captures d'écran
 
 | Connexion | Accueil |
