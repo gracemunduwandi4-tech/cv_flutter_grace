@@ -21,7 +21,7 @@ L'application est connectée à l'API https://github.com/espoirbaraka/api-test (
 
 ### Vidéo de démonstration
 
-[▶ Voir la vidéo de démonstration](demo/demo.mp4)
+[▶ Voir / télécharger la vidéo de démonstration](https://github.com/gracemunduwandi4-tech/cv_flutter_grace/raw/main/demo/demo.mp4)
 
 ### Configuration
 
